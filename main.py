@@ -18,7 +18,7 @@ PARTS_OF_DAY = "[0,1]"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
 
 # --- NOTIFICATION & PERSISTENCE ---
-NTFY_TOPIC = "icbc-kaur-monitor"
+NTFY_TOPIC = "jass_icbc"
 NTFY_URL = f"https://ntfy.sh/{NTFY_TOPIC}"
 NOTIFY_BEFORE_DATE = "2026-08-06"
 DB_PATH = Path("appointments.db")
