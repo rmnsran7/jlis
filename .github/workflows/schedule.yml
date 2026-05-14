@@ -1,0 +1,39 @@
+name: ICBC Monitor Schedule
+
+on:
+  schedule:
+    - cron: '*/25 * * * *' # Runs every 20 minutes
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  run-monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to save the .db file back to the repo
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run script
+        env:
+          ICBC_LAST_NAME: ${{ secrets.ICBC_LAST_NAME }}
+          ICBC_LICENSE_NUMBER: ${{ secrets.ICBC_LICENSE_NUMBER }}
+          ICBC_KEYWORD: ${{ secrets.ICBC_KEYWORD }}
+        run: python your_script_name.py
+
+      - name: Commit and push database changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add appointments.db
+          git commit -m "Update database [skip ci]" || echo "No changes to commit"
+          git push
